@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cálculo de Horas Freelancer - PIX FORCE</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/pix_force_logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+    <div>
+        <img src="{{ url_for('static', filename='images/pix_force_logo.png') }}" alt="Logo" class="logo">
+        <h1 class="header">Cálculo de horas de trabalho</h1>
+        <h2 class="header">Freelancer</h2>
+        <form method="post" enctype="multipart/form-data">
+            <label for="password" class="label"><b>Importe um arquivo JSON</b></label>
+            <input type="file" name="file" class="input-field" required>
+            <br>
+            <label for="password" class="label"><b>Digite a senha para descriptografar o arquivo(JSON)</b></label>
+            <input type="password" name="password" class="input-field" required>
+            <input type="submit" value="Upload" class="button">
+        </form>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="message-list">
+        {% for message in messages %}
+        <li class="message">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% if records %}
+    <div class="table-container">
+        <h2 class="header">Dados do Registro de Trabalho</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Projeto</th>
+                    <th>Total de Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record['entrada'] }}</td>
+                    <td>{{ record['saida'] }}</td>
+                    <td>{{ record['projeto'] }}</td>
+                    <td>{{ record['hours'] | round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </br>
+        <h3 class="footer">Total de Horas: {{ total_hours | round(2) }}</h3>
+        <h3 class="footer">Total a Receber: R$ {{ total_payment | round(2) }}</h3>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
